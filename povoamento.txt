@@ -1,0 +1,4 @@
+utente(1, kratos, 23, 123 garfe).
+utente(2, xavier, 22, 543 leiria).
+utente(5, marcia, 22, 213 guimaraes).
+utente(10, outro, 44, desconhecido).
