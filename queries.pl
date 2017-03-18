@@ -8,11 +8,12 @@ utentesComIdade(Idade, S)   :- findall(ID, utente(ID, _, Idade, _), S).
 utentesComMorada(Morada, S) :- findall(ID, utente(ID, _, _, Morada), S).
 
 find(X, Y) :- findall(X, X, [Y]).
-utentePorID(ID, U) :- find(utente(ID, _, _, _), U).
+byID(ID, U) :- find(utente(ID, _, _, _), U).
+byID(ID, C) :- find(cuidadoPrestado(ID, _, _, _), C).
+byID(ID, A) :- find(atoMedico(ID, _, _, _, _), A).
 
 % Identificar as instituições prestadoras de cuidados de saúde;
 instituicoes(S) :- findall(Instituicao, cuidadoPrestado(_, _, Instituicao, _), S).
-    % maybe setof
 
 % Identificar os cuidados prestados por instituição/cidade
 cuidadosPrestadosEm(Instituicao, S) :- findall(ID, cuidadoPrestado(ID, _, Instituicao, _), S),
@@ -23,10 +24,10 @@ cuidadosPrestadosEm(Cidade, S)      :- findall(ID, cuidadoPrestado(ID, _, _, Cid
 % Identificar os utentes de uma instituição/serviço
 utentesDe(Servico, S)     :- findall(IDUtente, atoMedico(_, IDUtente, Servico, _), S).
 utentesDe(Instituicao, S) :- cuidadoPrestado(Servico, _, Instituicao, _),
-                             findall(IDUtente, atoMedico(_, IDUtente, Servico, _), S).
+                             findall(IDUtente, atoMedico(_, _, IDUtente, Servico, _), S).
 
 % Identificar os atos médicos realizados, por utente/instituição/serviço ;
-instituicao(atoMedico(_, _, Servico, _), Instituicao) :- cuidadoPrestado(Servico, _, Instituicao, _).
+instituicao(AtoMedico, Instituicao) :- atoMedico(AtoMedico, _, _, Servico, _), cuidadoPrestado(Servico, _, Instituicao, _).
 
 atosMedicos(Utente, S)      :- findall(ID, atoMedico(ID, _, Utente, _ , _), S).
 atosMedicos(Servico, S)     :- findall(ID, atoMedico(ID, _, _, Servico, _), S).
