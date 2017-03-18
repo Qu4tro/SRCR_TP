@@ -1,7 +1,7 @@
 % Extensão do predicado solucoes: X,Teorema,Solucoes -> {V, F}
 
 solucoes(X, Teorema, _) :- 
-		Teorema, 
+		call(Teorema), 
 	    assert(temp(X)), 
  	    fail.
                   
@@ -12,7 +12,6 @@ construir([X | Resto]) :-
 		retract(temp(X)),
 		!,
 		construir(Resto)).
-
 construir([]).
 
 
@@ -47,26 +46,48 @@ teste([R|LR]) :-
 
 
 /* #########Invariantes############*/
+/* Invariantes de utentes */
 % Nao deixa introduzir o mesmo conhecimentos
 
-+utente(Codigo,Uten) :: 
-	(solucoes( (Codigo, Uten), utente(Codigo, Uten), S), comprimento(S, N), N == 1).
++utente(Codigo,Uten, Idd, Morada) :: 
+		(solucoes( (Codigo, Uten, Idd, Morada), utente(Codigo, Uten, Idd, Morada), S), 
+		comprimento(S, N), N == 1).
 
 % Nao deixa inserir utentes com o mesmo codigo
-+utente(Codigo,_) :: (solucoes( Uten, utente(Codigo,Uten), S),comprimento(S,N),N==1 ).
 
-% Nao deixa introduzir nomes iguas para as instituicoes
-+instituicao(Nome) :: (solucoes( Nome, instituicao(Nome), S),comprimento(S,N),N==1 ). 
++utente(Codigo, _, _, _) :: (solucoes( Codigo, utente(Codigo, Uten, Idd, Morada), S),
+		comprimento(S, N), N == 1 ).
 
-% Nao deixa introduzir nomes iguais para os servico
-+servico(Nome) :: (solucoes( Nome, servico(Nome), S),comprimento(S,N),N==1). 
+/* Invariantes de cuidados prestados */
 
-% Nao deixa introduzir o mesmo conhecimentos
-+profissional(Codigo,Prof) :: (solucoes( (Codigo,Prof), 
-profissional(Codigo,Prof), S),comprimento(S,N),N==1 ).
+% Nao deixa introduzir IDs iguais para os cuidados prestados
 
-% Nao deixa inserir profissionais com o mesmo codigo
-+profissional(Codigo,_) :: (solucoes( Prof, profissional(Codigo,Prof), S),comprimento(S,N),N==1 ).
++cuidadoPrestado(IdServ, _, Instituicao, _) :: 
+		(solucoes( temp(IdServ, Instituicao), cuidadoPrestado(IdServ, Descr, Instituicao, Cidade), S), 
+		comprimento(S, N), N == 1).
+
+
+% Nao deixa introduzir Descrições iguais para os cuidados prestados
+
++cuidadoPrestado(_, Descr, Instituicao, _) :: 
+		(solucoes( (Descr, Instituicao), cuidadoPrestado(IdServ, Descr, Instituicao, Cidade), S),
+		comprimento(S, N), N == 1). 
+
+
+% Não deixa introduzir os mesmos conhecimentos de um cuidado Prestado.
+
++cuidadoPrestado(IdServ, Descr, Instituicao, Cidade) :: 
+		(solucoes( (IdServ, Descr, Instituicao, Cidade), cuidadoPrestado(IdServ, Descr, Instituicao, Cidade), S), 
+		comprimento(S, N), N == 1).
+
+/* Invariantes de atos médicos */
+
+% Não deixa introduzir os mesmos conhecimentos de um ato médico 
+
++atoMedico(Data, CodigoUt, IdServ, Custo) :: 
+		(solucoes( (Data, CodigoUt, IdServ, Custo), atoMedico(Data, CodigoUt, IdServ, Custo), S),
+		comprimento(S, N), N == 1).
+
 
 
 /* ########## Remover #############*/
