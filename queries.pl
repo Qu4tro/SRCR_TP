@@ -27,8 +27,10 @@ utentesDe(Instituicao, S) :- cuidadoPrestado(Servico, _, Instituicao, _),
                              findall(IDUtente, atoMedico(_, _, IDUtente, Servico, _), S).
 
 % Identificar os atos médicos realizados, por utente/instituição/serviço ;
-instituicao(AtoMedico, Instituicao) :- atoMedico(AtoMedico, _, _, Servico, _), cuidadoPrestado(Servico, _, Instituicao, _).
+servico(AtoMedico, Servico) :- atoMedico(AtoMedico, _, _, Servico, _).
+instituicao(AtoMedico, Instituicao) :- servico(AtoMedico, Servico), cuidadoPrestado(Servico, _, Instituicao, _).
 
+atosMedicos(Data, S)        :- findall(ID, atoMedico(ID, Data, _, _, _)   , S).
 atosMedicos(Utente, S)      :- findall(ID, atoMedico(ID, _, Utente, _ , _), S).
 atosMedicos(Servico, S)     :- findall(ID, atoMedico(ID, _, _, Servico, _), S).
 atosMedicos(Instituicao, S) :- findall(Servico, cuidadoPrestado(Servico, _, Instituicao, _), Servicos),
@@ -36,14 +38,20 @@ atosMedicos(Instituicao, S) :- findall(Servico, cuidadoPrestado(Servico, _, Inst
 
 % Determinar todas as instituições/serviços a que um utente já recorreu
 utenteRecurreu(Utente, Instituicoes, Servicos) :- atosMedicos(Utente, S),
-                                                  maplist(atoMedicoEm, S, Instituicoes),
-                                                  maplist(atoMedicoEm, S, Servicos).
+                                                  maplist(instituicao, S, Instituicoes),
+                                                  maplist(servico, S, Servicos).
 
 % Calcular o custo total dos atos médicos por utente/serviço/instituição/data
 
+custoAtoMedico(ID, Custo) :- atoMedico(ID, _, _, _ , Custo).
+
+% USID - Utente Servico Instituicao ou Data
+custoTotal(USID, CustoTotal) :- findall(Custo, (atosMedicos(USID, IDS),
+                                                maplist(custoAtoMedico, IDS, Custos),
+                                                sumlist(Custos, Custo)), CustosTotais),
+                                sumlist(CustosTotais, CustoTotal).
 
 
-% custoTotal(Utente)
 
 
 

@@ -45,7 +45,7 @@ cuidadoPrestado(c13, psiquiatria, centro_hospitalar_nordeste, braganca).
 cuidadoPrestado(c14, urologia, hospital_s_joao, porto).
 cuidadoPrestado(c15, oncologia, hospital_dr_francisco_zagalo, aveiro).
 cuidadoPrestado(c16, ortopedia, hospital_distrital_de_pombal, leiria).
-cuidadoPrestado(c17, neurologa, hospital_de_magalhaes_lemos, porto).
+cuidadoPrestado(c17, neurologia, hospital_de_magalhaes_lemos, porto).
 cuidadoPrestado(c18, oncologia, hospital_dr_francisco_zagalo, aveiro).
 cuidadoPrestado(c19, cardiologia, hospital_s_joao, porto).
 cuidadoPrestado(c20, oftamologia, hospital_sao_joao_de_deus, braga).
