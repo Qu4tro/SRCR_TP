@@ -33,7 +33,7 @@ byID(ID, A) :- find(atoMedico(ID, _, _, _, _), A).
 existsID(ID) :- byID(ID, _).
 
 % Identificar as instituições prestadoras de cuidados de saúde;
-instituicoes(S) :- findall(Instituicao, cuidadoPrestado(_, _, Instituicao, _), S).
+instituicoes(S) :- findall(Instituicao, cuidadoPrestado(_, _, Instituicao, _), S1), sort(S1, S).
 
 % Identificar os cuidados prestados por instituição/cidade
 cuidadosPrestadosEm(Instituicao, S) :- findall(ID, cuidadoPrestado(ID, _, Instituicao, _), S),
