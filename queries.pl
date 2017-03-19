@@ -46,10 +46,10 @@ utenteRecurreu(Utente, Instituicoes, Servicos) :- atosMedicos(Utente, S),
 custoAtoMedico(ID, Custo) :- atoMedico(ID, _, _, _ , Custo).
 
 % USID - Utente Servico Instituicao ou Data
-custoTotal(USID, CustoTotal) :- findall(Custo, (atosMedicos(USID, IDS),
-                                                maplist(custoAtoMedico, IDS, Custos),
-                                                sumlist(Custos, Custo)), CustosTotais),
-                                sumlist(CustosTotais, CustoTotal).
+custoTotal(USID, Custo) :- atosMedicos(USID, IDS),
+                           maplist(custoAtoMedico, IDS, Custos),
+                           sumlist(Custos, Custo),
+                           length(Custos, N), N > 0.
 
 
 
