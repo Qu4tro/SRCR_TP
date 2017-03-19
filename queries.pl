@@ -41,9 +41,10 @@ cuidadosPrestadosEm(Instituicao, S) :- findall(ID, cuidadoPrestado(ID, _, Instit
 cuidadosPrestadosEm(Cidade, S)      :- findall(ID, cuidadoPrestado(ID, _, _, Cidade), S).
 
 % Identificar os utentes de uma instituição/serviço
-utentesDe(Servico, S)     :- findall(IDUtente, atoMedico(_, IDUtente, Servico, _), S).
-utentesDe(Instituicao, S) :- cuidadoPrestado(Servico, _, Instituicao, _),
-                             findall(IDUtente, atoMedico(_, _, IDUtente, Servico, _), S).
+utentesDe(Servico, S)     :- findall(IDUtente, atoMedico(_, _, IDUtente, Servico, _), S).
+utentesDe(Instituicao, S) :- findall(IDUtente, (atoMedico(_, _, IDUtente, Servico, _),
+                                                cuidadoPrestado(Servico, _, Instituicao, _)),
+                                                S).
 
 % Identificar os atos médicos realizados, por utente/instituição/serviço ;
 servico(AtoMedico, Servico) :- atoMedico(AtoMedico, _, _, Servico, _).
