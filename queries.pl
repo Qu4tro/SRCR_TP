@@ -38,8 +38,7 @@ instituicoes(S) :- findall(Instituicao, cuidadoPrestado(_, _, Instituicao, _), S
 % Identificar os cuidados prestados por instituição/cidade
 cuidadosPrestadosEm(Instituicao, S) :- findall(ID, cuidadoPrestado(ID, _, Instituicao, _), S),
                                        listNotEmpty(S).
-cuidadosPrestadosEm(Cidade, S)      :- findall(ID, cuidadoPrestado(ID, _, _, Cidade), S),
-                                       listNotEmpty(S).
+cuidadosPrestadosEm(Cidade, S)      :- findall(ID, cuidadoPrestado(ID, _, _, Cidade), S).
 
 % Identificar os utentes de uma instituição/serviço
 utentesDe(Servico, S)     :- findall(IDUtente, atoMedico(_, IDUtente, Servico, _), S).
