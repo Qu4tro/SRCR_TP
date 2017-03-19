@@ -47,11 +47,11 @@ utentesDe(Instituicao, S) :- cuidadoPrestado(Servico, _, Instituicao, _),
 servico(AtoMedico, Servico) :- atoMedico(AtoMedico, _, _, Servico, _).
 instituicao(AtoMedico, Instituicao) :- servico(AtoMedico, Servico), cuidadoPrestado(Servico, _, Instituicao, _).
 
-atosMedicos(Data, S)        :- findall(ID, atoMedico(ID, Data, _, _, _)   , S).
-atosMedicos(Utente, S)      :- findall(ID, atoMedico(ID, _, Utente, _ , _), S).
-atosMedicos(Servico, S)     :- findall(ID, atoMedico(ID, _, _, Servico, _), S).
-atosMedicos(Instituicao, S) :- findall(Servico, cuidadoPrestado(Servico, _, Instituicao, _), Servicos),
-                               maplist(atosMedicos, Servicos, S).
+atosMedicos(Data, S)        :- findall(ID, atoMedico(ID, Data, _, _, _)   ,   S).
+atosMedicos(Utente, S)      :- findall(ID, atoMedico(ID, _, Utente, _ , _),   S).
+atosMedicos(Servico, S)     :- findall(ID, atoMedico(ID, _, _, Servico, _),   S).
+atosMedicos(Instituicao, S) :- findall(ID, (cuidadoPrestado(Servico, _, Instituicao, _), 
+                                            atoMedico(ID, _, _, Servico, _)), S).
 
 % Determinar todas as instituições/serviços a que um utente já recorreu
 utenteRecurreu(Utente, Instituicoes, Servicos) :- atosMedicos(Utente, S),
