@@ -1,4 +1,19 @@
 
+% utente: #IdUt, Nome, Idade, Morada
+% cuidado prestado: #IdServ, Descrição, Instituição, Cidade
+% ato médico: Data, #IdUt, #IdServ, Custo
+
+:- dynamic utente/4.
+:- dynamic cuidadoPrestado/4.
+:- dynamic atoMedico/5.
+
+import :- consult('conhecimento.pl'), consult('invariantes.pl').
+
+% Registar utentes, cuidados prestados e atos médicos;
+registarUtente(ID, Nome, Idade, Morada) :- evolucao(utente(ID, Nome, Idade, Morada)).
+registarCuidado(ID, Desc, Instiuicao, Cidade) :- evolucao(cuidadoPrestado(ID, Desc, Instiuicao, Cidade)).
+registarAtoMedico(ID, Data, IDUt, IDServ, Custo) :- evolucao(atoMedico(ID, Data, IDUt, IDServ, Custo)).
+
 listNotEmpty([]) :- fail.
 listNotEmpty([_|_]).
 

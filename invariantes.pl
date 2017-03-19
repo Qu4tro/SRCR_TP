@@ -1,3 +1,7 @@
+:- op( 900,xfy,'::' ).
+:- dynamic temp/1.
+
+
 % Extensão do predicado solucoes: X,Teorema,Solucoes -> {V, F}
 
 solucoes(X, Teorema, _) :-
@@ -31,7 +35,7 @@ comprimento([_|T], R) :-
 
 evolucao( Termo ) :-
 				findall(Invariante, +Termo::Invariante,Lista),
-				insercao( Termo),
+				insercao(Termo),
 				teste(Lista).
 
 insercao(Termo) :-
