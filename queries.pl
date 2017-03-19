@@ -14,6 +14,9 @@ registarUtente(ID, Nome, Idade, Morada) :- evolucao(utente(ID, Nome, Idade, Mora
 registarCuidado(ID, Desc, Instiuicao, Cidade) :- evolucao(cuidadoPrestado(ID, Desc, Instiuicao, Cidade)).
 registarAtoMedico(ID, Data, IDUt, IDServ, Custo) :- evolucao(atoMedico(ID, Data, IDUt, IDServ, Custo)).
 
+removerRegisto(ID) :- byID(ID, R), devolucao(R).
+
+
 listNotEmpty([]) :- fail.
 listNotEmpty([_|_]).
 

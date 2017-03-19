@@ -24,6 +24,11 @@ nSolucoes(Teorema, N) :-
 
 % Extensão do predicado que permite a evolucao do conhecimento
 
+devolucao( Termo ) :-
+    findall(Invariante, -Termo::Invariante,Lista),
+    remocao(Termo),
+    teste(Lista).
+
 evolucao( Termo ) :-
 				findall(Invariante, +Termo::Invariante,Lista),
 				insercao(Termo),
@@ -31,9 +36,13 @@ evolucao( Termo ) :-
 
 insercao(Termo) :-
 		assert(Termo).
-
 insercao(Termo) :-
 		retract(Termo),!,fail.
+
+remocao(Termo) :-
+		retract(Termo).
+remocao(Termo) :-
+		assert(Termo),!,fail.
 
 teste([]).
 teste([R|LR]) :-
@@ -93,10 +102,12 @@ teste([R|LR]) :-
 
 % Não deixar remover um utente cujo tem um ato medico associado
 
-% -utente(Codigo, _, _, _) :: (nao( atoMedico(_, Codigo, _, _), ), nao(utente(Codigo, _, _, _))).
+-utente(Codigo, _, _, _) :: (nao(atoMedico(_, Codigo, _, _)), 
+                             nao(utente(Codigo, _, _, _))).
 
 
 % % Não deixar remover um cuidado prestado cujo tem um ato medico associado
 
-% -cuidadoPrestado(Codigo, _, _, _) :: (nao( cuidadoPrestado(Codigo, _, _, _)), nao( cuidadoPrestado(Codigo, _, _, _))).
+-cuidadoPrestado(Codigo, _, _, _) :: (nao(cuidadoPrestado(Codigo, _, _, _)),
+                                      nao( cuidadoPrestado(Codigo, _, _, _))).
 
