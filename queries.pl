@@ -7,7 +7,7 @@
 :- dynamic cuidadoPrestado/4.
 :- dynamic atoMedico/5.
 
-import :- consult('conhecimento.pl'), consult('invariantes.pl').
+:- consult('conhecimento.pl'), consult('invariantes.pl').
 
 % Registar utentes, cuidados prestados e atos médicos;
 registarUtente(ID, Nome, Idade, Morada) :- evolucao(utente(ID, Nome, Idade, Morada)).
@@ -26,6 +26,8 @@ find(X, Y) :- findall(X, X, [Y]).
 byID(ID, U) :- find(utente(ID, _, _, _), U).
 byID(ID, C) :- find(cuidadoPrestado(ID, _, _, _), C).
 byID(ID, A) :- find(atoMedico(ID, _, _, _, _), A).
+
+existsID(ID) :- byID(ID, _).
 
 % Identificar as instituições prestadoras de cuidados de saúde;
 instituicoes(S) :- findall(Instituicao, cuidadoPrestado(_, _, Instituicao, _), S).
