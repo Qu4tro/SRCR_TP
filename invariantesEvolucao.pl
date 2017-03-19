@@ -73,19 +73,12 @@ teste([R|LR]) :-
 
 /* ########## Remover #############*/
 
-% Nao deixar remover um paciente enquanto estiver a ser consultado por um profissional, 
-% ou estiver num servico ou numa instituicao
-% -utente(Codigo,Nome) :: (nao(ins_serv_uten_profi(_,_,Codigo,_)),nao(utente(Codigo,Nome))).
+% Não deixar remover um utente cujo tem um ato medico associado
+
+-utente(Codigo, _, _, _) :: (nao( atoMedico(_, Codigo, _, _), ), nao(utente(Codigo, _, _, _))).
 
 
-% % Nao deixar remover um profissional enquanto estiver a ser consultado por um profissional, 
-% % ou estiver num servico ou numa instituicao
-% -profissional(Codigo,Nome) :: (nao(ins_serv_uten_profi(_,_,_,Codigo)),nao(profissional(Codigo,Nome))).
+% Não deixar remover um cuidado prestado cujo tem um ato medico associado
 
+-cuidadoPrestado(Codigo, _, _, _) :: (nao( cuidadoPrestado(Codigo, _, _, _)), nao( cuidadoPrestado(Codigo, _, _, _))).
 
-% % Nao deixar remover um servico com profissionais a trabalhar nele ou utentes a usar-lo, ou estar na instituicao
-% -servico(Nome) :: (nao(ins_serv_uten_profi(_,Nome,_,_))).
-
-
-% % Nao deixar remover uma instituicao com profissionais, utentes, ou servicos
-% -instituicao(Nome) :: (nao(ins_serv_uten_profi(Nome,_,_,_))).
