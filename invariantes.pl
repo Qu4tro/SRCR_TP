@@ -2,6 +2,10 @@
 :- dynamic temp/1.
 
 
+nao(Questao) :-
+Questao, !, fail .
+nao(Questao) .
+
 % Extensão do predicado solucoes: X,Teorema,Solucoes -> {V, F}
 
 solucoes(X, Teorema, _) :-
@@ -102,7 +106,7 @@ teste([R|LR]) :-
 
 % Não deixar remover um utente cujo tem um ato medico associado
 
--utente(Codigo, _, _, _) :: (nao(atoMedico(_, Codigo, _, _)), 
+-utente(Codigo, _, _, _) :: (nao(atoMedico(_, _, Codigo, _, _)), 
                              nao(utente(Codigo, _, _, _))).
 
 
