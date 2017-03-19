@@ -41,7 +41,8 @@ cuidadosPrestadosEm(Instituicao, S) :- findall(ID, cuidadoPrestado(ID, _, Instit
 cuidadosPrestadosEm(Cidade, S)      :- findall(ID, cuidadoPrestado(ID, _, _, Cidade), S).
 
 % Identificar os utentes de uma instituição/serviço
-utentesDe(Servico, S)     :- findall(IDUtente, atoMedico(_, _, IDUtente, Servico, _), S).
+utentesDe(Servico, S)     :- findall(IDUtente, atoMedico(_, _, IDUtente, Servico, _), S),
+                             listNotEmpty(S).
 utentesDe(Instituicao, S) :- findall(IDUtente, (atoMedico(_, _, IDUtente, Servico, _),
                                                 cuidadoPrestado(Servico, _, Instituicao, _)),
                                                 S).
@@ -50,9 +51,12 @@ utentesDe(Instituicao, S) :- findall(IDUtente, (atoMedico(_, _, IDUtente, Servic
 servico(AtoMedico, Servico) :- atoMedico(AtoMedico, _, _, Servico, _).
 instituicao(AtoMedico, Instituicao) :- servico(AtoMedico, Servico), cuidadoPrestado(Servico, _, Instituicao, _).
 
-atosMedicos(Data, S)        :- findall(ID, atoMedico(ID, Data, _, _, _)   ,   S).
-atosMedicos(Utente, S)      :- findall(ID, atoMedico(ID, _, Utente, _ , _),   S).
-atosMedicos(Servico, S)     :- findall(ID, atoMedico(ID, _, _, Servico, _),   S).
+atosMedicos(Data, S)        :- findall(ID, atoMedico(ID, Data, _, _, _)   ,   S),
+                               listNotEmpty(S).
+atosMedicos(Utente, S)      :- findall(ID, atoMedico(ID, _, Utente, _ , _),   S),
+                               listNotEmpty(S).
+atosMedicos(Servico, S)     :- findall(ID, atoMedico(ID, _, _, Servico, _),   S),
+                               listNotEmpty(S).
 atosMedicos(Instituicao, S) :- findall(ID, (cuidadoPrestado(Servico, _, Instituicao, _), 
                                             atoMedico(ID, _, _, Servico, _)), S).
 
