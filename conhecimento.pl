@@ -3,7 +3,13 @@
 
 %-------Base de Conhecimento----------
 
-% Extensao predicado utente(idUt, nome, idade, morada) -> {V,F}
+% Extensao predicado utente(idUt, nome, idade, morada) -> {V,F,D}
+
+
+utente(u0, desconhecido, 0, "").
+
+excecao(utente(UID, Nome, I, M) :-
+    utente(UID, desconhecido, I, M).
 
 utente(u1, xavier, 44, rua_dom_jose_alves_correia_da_silva_2414_001_leiria).
 utente(u2, patricia, 77, "3020_740_sargento_mor").
@@ -27,7 +33,11 @@ utente(u19, orlando, 39, rua_brandariz_4415_001_perosinho).
 utente(u20, pedro, 23, caminho_dos_lopes_4585_618_recarei).
 
 
-% Extensao predicado cuidado_prestado(idServ, descricao, instituicao, cidade) -> {V,F}
+% Extensao predicado cuidado_prestado(idServ, descricao, instituicao, cidade) -> {V,F,D}
+
+cuidadoPrestado(c0, desconhecido, "", "").
+excecao(cuidadoPrestado(CID, Nome, I, C) :-
+    cuidadoPrestado(CID, desconhecido, I, C).
 
 cuidadoPrestado(c1, cardiologia, hospital_de_braga, braga).
 cuidadoPrestado(c2, oncologia, hospital_s_marcos, braga).
@@ -50,7 +60,11 @@ cuidadoPrestado(c18, oncologia, hospital_dr_francisco_zagalo, aveiro).
 cuidadoPrestado(c19, cardiologia, hospital_s_joao, porto).
 cuidadoPrestado(c20, oftamologia, hospital_sao_joao_de_deus, braga).
 
-% Extensao predicado ato_medico(data, idUt, idServ, custo) -> {V,F}
+% Extensao predicado ato_medico(data, idUt, idServ, custo) -> {V,F,D}
+
+atoMedico(a0, "", u0, c0, 0).
+excecao(atoMedico(AID, D, U, C, V) :-
+    atoMedico(AID, "", U, C, V).
 
 atoMedico(a1, "2016-jan-15", u1, c2, 30).
 atoMedico(a2, "2016-jan-24", u4, c4, 20).
