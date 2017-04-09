@@ -6,13 +6,6 @@
 % Extensao predicado utente(idUt, nome, idade, morada) -> {V,F,D}
 
 
-utente(u0, desconhecido, 0, "").
-
-excecao(utente(UID, Nome, I, M) :-
-    utente(UID, desconhecido, I, M).
-
-excepcao(utente(u1, xavier, 44, rua_dom_jose_alves_correia_da_silva_2414_001_leiria)).
-excepcao(utente(u1, xavier, 4, rua_dom_jose_alves_correia_da_silva_2414_001_leiria)).
 
 utente(u2, patricia, 77, "3020_740_sargento_mor").
 utente(u3, carlos, 12, rua_da_tabuaca_anta_4500_005_espinho).
@@ -34,14 +27,40 @@ utente(u18, rui, 37, beco_aleixo_4150_004_porto).
 utente(u19, orlando, 39, rua_brandariz_4415_001_perosinho).
 utente(u20, pedro, 23, caminho_dos_lopes_4585_618_recarei).
 
-utente(xpto, "", 0, mzz).
-excepcao(utente(UID, Nome, I, M)) :-
-    utente(xpto, Nome, I, M).
+
+
+% ------- Valor imperfeito incerto ------------------
+
+utente(u0, desconhecido, 33, "125_rua_nova").
+
+excecao(utente(UID, Nome, I, M)) :-
+    utente(UID, desconhecido, I, M).
+
+
+% ---------- Valor imperfeito impreciso -------------------
+
+
+excecao(utente(u1, xavier, 44, rua_dom_jose_alves_correia_da_silva_2414_001_leiria)).
+excecao(utente(u1, xavier, 4, rua_dom_jose_alves_correia_da_silva_2414_001_leiria)).
+
+
+
+% ------------ Valor imperfeito interdito ---------------------
+
+utente(u100, xpto, 28, "2828_oliveira_de_azemeis").
+excecao(utente(UID, Nome, I, M)) :-
+    utente(UID, xpto, I, M).
+
+nulo(xpto).
++utente(ID, N, I, M) :- (findall((ID, N, I, M), (utente(ID, N, I, M), nao(nulo(ID))), S), 
+						length(S, 0)).
+
+
     
 % Extensao predicado cuidado_prestado(idServ, descricao, instituicao, cidade) -> {V,F,D}
 
 cuidadoPrestado(c0, desconhecido, "", "").
-excecao(cuidadoPrestado(CID, Nome, I, C) :-
+excecao(cuidadoPrestado(CID, Nome, I, C)) :-
     cuidadoPrestado(CID, desconhecido, I, C).
 
 cuidadoPrestado(c1, cardiologia, hospital_de_braga, braga).
@@ -73,7 +92,7 @@ excepcao(cuidadoPrestado(CID, Nome, I, C)) :-
 % Extensao predicado ato_medico(data, idUt, idServ, custo) -> {V,F,D}
 
 atoMedico(a0, "", u0, c0, 0).
-excecao(atoMedico(AID, D, U, C, V) :-
+excecao(atoMedico(AID, D, U, C, V)) :-
     atoMedico(AID, "", U, C, V).
 
 atoMedico(a1, "2016-jan-15", u1, c2, 30).
@@ -128,6 +147,34 @@ atoMedico(a49, "2016-set-34", u18, c9, 200).
 atoMedico(a50, "2016-jan-24", u13, c8, 50).
 atoMedico(a51, "2016-dez-29", u15, c16, 10).
 atoMedico(a52, "2016-nov-19", u14, c3, 20).
+
+
+% Negação forte
+
+% Clientes --------------------------
+
+
+-utente(ID, N, I, M) :-  nao(utente(ID,N,I,M)),
+					 	 nao(excecao(utente(ID,N,I,M))).
+
+-utente(u91, manuel, 23, grimancelos).
+
+
+
+% Ato Medico -------------------------
+
+
+-atoMedico(ID, D, U, C, V) :- nao(atoMedico(ID, D, U, C, V)),
+							  nao(excecao(atoMedico(ID, D, U, C, V))).
+
+
+
+
+% Cuidado Prestado ---------------------------------
+
+
+-cuidadoPrestado(ID, D, I, C) :- nao(cuidadoPrestado(ID, D, I, C)),
+								 nao(excecao(cuidadoPrestado(ID, D, I, C))).
 
 
 atoMedico(xpto, "", 0, mzz).
