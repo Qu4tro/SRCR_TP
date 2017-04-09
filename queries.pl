@@ -77,6 +77,44 @@ custoTotal(USID, Custo) :- atosMedicos(USID, IDS),
 
 
 
+% Extensao do meta-predicado demo: Questao,Resposta -> {V,F}
+
+demo( Questao,verdadeiro ) :-
+    Questao.
+demo( Questao, falso ) :-
+    -Questao.
+demo( Questao,desconhecido ) :-
+    nao( Questao ),
+	nao( -Questao ).
+
+
+% Negação forte
+
+% Clientes --------------------------
+
+
+-utente(ID, N, I, M) :-  nao(utente(ID,N,I,M)),
+					 	 nao(excecao(utente(ID,N,I,M))).
+
+
+
+% Ato Medico -------------------------
+
+
+-atoMedico(ID, D, U, C, V) :- nao(atoMedico(ID, D, U, C, V)),
+							  nao(excecao(atoMedico(ID, D, U, C, V))).
+
+
+
+% Cuidado Prestado ---------------------------------
+
+
+-cuidadoPrestado(ID, D, I, C) :- nao(cuidadoPrestado(ID, D, I, C)),
+								 nao(excecao(cuidadoPrestado(ID, D, I, C))).
+
+
+
+
 
 
 
