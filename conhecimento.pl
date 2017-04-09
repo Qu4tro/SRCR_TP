@@ -11,7 +11,9 @@ utente(u0, desconhecido, 0, "").
 excecao(utente(UID, Nome, I, M) :-
     utente(UID, desconhecido, I, M).
 
-utente(u1, xavier, 44, rua_dom_jose_alves_correia_da_silva_2414_001_leiria).
+excepcao(utente(u1, xavier, 44, rua_dom_jose_alves_correia_da_silva_2414_001_leiria)).
+excepcao(utente(u1, xavier, 4, rua_dom_jose_alves_correia_da_silva_2414_001_leiria)).
+
 utente(u2, patricia, 77, "3020_740_sargento_mor").
 utente(u3, carlos, 12, rua_da_tabuaca_anta_4500_005_espinho).
 utente(u4, daniel, 42, "5225_007_picote").
@@ -32,7 +34,10 @@ utente(u18, rui, 37, beco_aleixo_4150_004_porto).
 utente(u19, orlando, 39, rua_brandariz_4415_001_perosinho).
 utente(u20, pedro, 23, caminho_dos_lopes_4585_618_recarei).
 
-
+utente(xpto, "", 0, mzz).
+excepcao(utente(UID, Nome, I, M)) :-
+    utente(xpto, Nome, I, M).
+    
 % Extensao predicado cuidado_prestado(idServ, descricao, instituicao, cidade) -> {V,F,D}
 
 cuidadoPrestado(c0, desconhecido, "", "").
@@ -59,6 +64,11 @@ cuidadoPrestado(c17, neurologia, hospital_de_magalhaes_lemos, porto).
 cuidadoPrestado(c18, oncologia, hospital_dr_francisco_zagalo, aveiro).
 cuidadoPrestado(c19, cardiologia, hospital_s_joao, porto).
 cuidadoPrestado(c20, oftamologia, hospital_sao_joao_de_deus, braga).
+
+cuidadoPrestado(xpto, "", 0, mzz).
+excepcao(cuidadoPrestado(CID, Nome, I, C)) :-
+    cuidadoPrestado(xpto, Nome, I, C).
+    
 
 % Extensao predicado ato_medico(data, idUt, idServ, custo) -> {V,F,D}
 
@@ -118,3 +128,9 @@ atoMedico(a49, "2016-set-34", u18, c9, 200).
 atoMedico(a50, "2016-jan-24", u13, c8, 50).
 atoMedico(a51, "2016-dez-29", u15, c16, 10).
 atoMedico(a52, "2016-nov-19", u14, c3, 20).
+
+
+atoMedico(xpto, "", 0, mzz).
+excepcao(atoMedico(ID, D, U, C, V)) :-
+    atoMedico(xpto, D, U, C, V).
+    
